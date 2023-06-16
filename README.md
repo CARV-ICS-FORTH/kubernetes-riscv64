@@ -36,7 +36,7 @@ INSTALL_K3S_EXEC="server --disable traefik,metrics-server --pause-image carvicsf
 ```
 
 > **Note**
-> Note that still most container images are not available for RISC-V, so many applications may not run.
+> Most container images are not available for RISC-V, so many applications may not run.
 
 To deploy a sample Ubuntu 22.04 pod:
 ```bash
