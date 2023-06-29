@@ -13,7 +13,7 @@ In addition to cross-compiling the K3s core, respective changes where required i
 Here is a list of submitted PRs:
 - [Add support for RISC-V](https://github.com/k3s-io/k3s/pull/7778) in k3s
 - [Support RISC-V](https://github.com/k3s-io/k3s-root/pull/60]) in k3s-root - *Merged*
-- [Backport riscv64 support into 1.1.x](https://github.com/opencontainers/runc/pull/3905) in runc
+- [Backport riscv64 support into 1.1.x](https://github.com/opencontainers/runc/pull/3905) in runc - *Merged*
 
 Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://github.com/CARV-ICS-FORTH/k3s) with [binaries and install instructions](https://github.com/CARV-ICS-FORTH/k3s/releases).
 
