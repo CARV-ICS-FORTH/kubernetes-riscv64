@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-path-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 128Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-volume
+spec:
+  containers:
+  - name: ubuntu
+    image: riscv64/ubuntu:latest
+    command: ["sleep"]
+    args: ["infinity"]
+    volumeMounts:
+    - name: local-path-volume
+      mountPath: /data
+  volumes:
+  - name: local-path-volume
+    persistentVolumeClaim:
+      claimName: local-path-pvc
