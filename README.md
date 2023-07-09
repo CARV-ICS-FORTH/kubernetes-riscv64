@@ -4,9 +4,7 @@ As of mid-2023, Debian and Ubuntu Linux run on RISC-V, with container support en
 
 This document marks our current progress in making Kubernetes available for RISC-V.
 
-<p align="center">
-  <img src="https://github.com/CARV-ICS-FORTH/kubernetes-riscv64/raw/master/hello-riscv.png" alt="Hello RISC-V" width="480">
-</p>
+![Hello RISC-V!](hello-riscv.png)
 
 ## Running
 
