@@ -4,6 +4,10 @@ As of mid-2023, Debian and Ubuntu Linux run on RISC-V, with container support en
 
 This document marks our current progress in making Kubernetes available for RISC-V.
 
+<p align="center">
+  <img src="https://github.com/CARV-ICS-FORTH/kubernetes-riscv64/raw/master/hello-riscv.png" alt="Hello RISC-V" width="480">
+</p>
+
 ## Running
 
 In summary, the following commands should get you up and running:
@@ -32,9 +36,9 @@ kubectl edit deployment -n kube-system local-path-provisioner
 > **Note**
 > Most container images are not available for RISC-V, so many applications may not run.
 
-To deploy a sample Ubuntu 22.04 pod:
+Check the `examples` folder for sample applications:
 ```bash
-kubectl apply -f examples/ubuntu-pod.yaml
+kubectl apply -f examples/hello-kubernetes.yaml
 ```
 
 ## K3s
@@ -74,6 +78,11 @@ docker push carvicsforth/local-path-provisioner:master-head
 ```
 
 Any other necessary container images (like the `pause` container) can be found in the `images` folder.
+
+## Applications
+
+List of other applications ported to RISC-V:
+- [Build multi-arch images locally, including ARM and RISC-V](https://github.com/paulbouwer/hello-kubernetes/pull/46) in Hello Kubernetes
 
 ## Acknowledgements
 
