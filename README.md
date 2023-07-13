@@ -57,6 +57,7 @@ Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://git
 To support the effort, some services have also been ported to RISC-V:
 - [Add support for RISC-V](https://github.com/coredns/coredns/pull/6195) in CoreDNS - *Merged, not yet released*
 - [Add support for RISC-V](https://github.com/rancher/local-path-provisioner/pull/346) in Local Path Provisioner
+- [Add support for RISC-V](https://github.com/helm/helm/pull/12204) in Helm
 
 To build and upload the CoreDNS image from our fork, we comment out building `amd64` and `arm64` binaries in `Makefile.release` and run:
 ```bash
