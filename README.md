@@ -18,7 +18,7 @@ cat k3s-riscv64.gz.* | gunzip > /usr/local/bin/k3s
 chmod +x /usr/local/bin/k3s
 
 curl -sfL https://get.k3s.io > k3s-install.sh
-INSTALL_K3S_EXEC="server --disable metrics-server --pause-image carvicsforth/pause-riscv:v3.9-v1.27.2" INSTALL_K3S_SKIP_DOWNLOAD="true" bash -x k3s-install.sh
+INSTALL_K3S_EXEC="server --disable metrics-server --pause-image carvicsforth/pause:v3.9-v1.27.2" INSTALL_K3S_SKIP_DOWNLOAD="true" bash -x k3s-install.sh
 
 # Set the CoreDNS container image to "carvicsforth/coredns:1.10.1"
 KUBE_EDITOR="sed -i '/image\:/ s/: .*/: carvicsforth\/coredns:1.10.1/'" \
