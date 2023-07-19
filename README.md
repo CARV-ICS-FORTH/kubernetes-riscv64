@@ -91,6 +91,13 @@ docker tag rancher/klipper-helm:dev carvicsforth/klipper-helm:v0.8.0-build202307
 docker push carvicsforth/klipper-helm:v0.8.0-build20230716
 ```
 
+To build and upload the klipper-lb image from our fork, we run:
+```bash
+ARCH=riscv64 make
+docker tag rancher/klipper-lb:dev carvicsforth/klipper-lb:v0.4.4
+docker push carvicsforth/klipper-lb:v0.4.4
+```
+
 Other necessary container images, like the `pause` and `traefik` containers, can be found in the `images` folder.
 
 ## Applications
