@@ -10,31 +10,16 @@ This document marks our current progress in making Kubernetes available for RISC
 
 In summary, the following commands should get you up and running with K3s:
 ```bash
-# Download and install K3s
-wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230616/k3s-riscv64.gz.aa
-wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230616/k3s-riscv64.gz.ab
-wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230616/k3s-riscv64.gz.ac
+# Download
+wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230721/k3s-riscv64.gz.aa
+wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230721/k3s-riscv64.gz.ab
+wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230721/k3s-riscv64.gz.ac
 cat k3s-riscv64.gz.* | gunzip > /usr/local/bin/k3s
 chmod +x /usr/local/bin/k3s
 
+# Install
 curl -sfL https://get.k3s.io > k3s-install.sh
-INSTALL_K3S_EXEC="server --disable metrics-server --pause-image carvicsforth/pause:v3.9-v1.27.2" INSTALL_K3S_SKIP_DOWNLOAD="true" bash -x k3s-install.sh
-
-# Set the CoreDNS container image to "carvicsforth/coredns:1.10.1"
-KUBE_EDITOR="sed -i '/image\:/ s/: .*/: carvicsforth\/coredns:1.10.1/'" \
-kubectl edit deployment -n kube-system coredns
-
-# Set the Local Path Provisioner container image to "carvicsforth/local-path-provisioner:master-head" and the helper pod container image to "riscv64/busybox:1.34.1"
-KUBE_EDITOR="sed -i '/image\:/ s/: .*/: riscv64\/busybox:1.34.1/'" \
-kubectl edit configmap -n kube-system local-path-config
-KUBE_EDITOR="sed -i '/image\:/ s/: .*/: carvicsforth\/local-path-provisioner:master-head/'" \
-kubectl edit deployment -n kube-system local-path-provisioner
-
-# Set the klipper-helm job container image to  "carvicsforth/klipper-helm:v0.8.0-build20230716"
-KUBE_EDITOR="sed -i '/^spec\:/a \ \ jobImage\:\ carvicsforth/klipper-helm:v0.8.0-build20230716'" \
-kubectl edit helmchart -n kube-system traefik-crd
-KUBE_EDITOR="sed -i '/^spec\:/a \ \ jobImage\:\ carvicsforth/klipper-helm:v0.8.0-build20230716'" \
-kubectl edit helmchart -n kube-system traefik
+INSTALL_K3S_EXEC="server --disable metrics-server" INSTALL_K3S_SKIP_DOWNLOAD="true" bash -x k3s-install.sh
 ```
 
 > **Note**
@@ -42,25 +27,36 @@ kubectl edit helmchart -n kube-system traefik
 
 Check the `examples` folder for sample applications:
 ```bash
-kubectl apply -f examples/hello-kubernetes.yaml
+kubectl apply -f https://raw.githubusercontent.com/CARV-ICS-FORTH/kubernetes-riscv64/main/examples/hello-kubernetes.yaml
 ```
 
 ## K3s
 
-We started by cross-compiling [K3s](https://k3s.io/) to RISC-V. K3s is a light-weight Kubernetes distribution that packs all necessary code into a single binary and needs a smaller memory footprint to run.
+[K3s](https://k3s.io/) is a light-weight Kubernetes distribution that packs all necessary code into a single binary and needs a smaller memory footprint to run.
 
-In addition to cross-compiling the K3s core, respective changes where required in dependencies [k3s-root](https://github.com/k3s-io/k3s-root) (the base user space binaries for K3s) and [runc](https://github.com/opencontainers/runc) (the tool that runs the containers).
+To cross-compile K3s to RISC-V, we also had to make required changes in its dependencies [k3s-root](https://github.com/k3s-io/k3s-root) (the base user space binaries for K3s) and [runc](https://github.com/opencontainers/runc) (the tool that runs the containers).
 
 Here is a list of submitted PRs:
 - [Add support for RISC-V](https://github.com/k3s-io/k3s/pull/7778) in K3s
 - [Support RISC-V](https://github.com/k3s-io/k3s-root/pull/60) in k3s-root - *Merged, released in v0.13.0*
 - [Backport riscv64 support into 1.1.x](https://github.com/opencontainers/runc/pull/3905) in runc - *Merged, not yet released*
 
-Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://github.com/CARV-ICS-FORTH/k3s) with [precompiled binaries](https://github.com/CARV-ICS-FORTH/k3s/releases).
+Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://github.com/CARV-ICS-FORTH/k3s) with [precompiled binaries](https://github.com/CARV-ICS-FORTH/k3s/releases). The binaries are built from the `riscv64-manifests` branch, that also uses available `riscv64` container images by default.
+
+We build K3s with:
+```bash
+# Build
+rm -rf bin etc dist build
+ARCH=riscv64 SKIP_IMAGE=true SKIP_VALIDATE=true SKIP_AIRGAP=true make
+
+# Split
+cd dist/artifacts
+gzip < k3s-riscv64 | split -b 20M - k3s-riscv64.gz.
+```
 
 ## Supporting services and container images
 
-K3s relies on several additional services and applications. We are gradually porting them to RISC-V:
+K3s relies on several additional services and applications, which are gradually being ported to RISC-V:
 - [Add support for RISC-V](https://github.com/coredns/coredns/pull/6195) in CoreDNS - *Merged, not yet released*
 - [Add support for RISC-V](https://github.com/rancher/local-path-provisioner/pull/346) in Local Path Provisioner
 - [Add support for RISC-V](https://github.com/helm/helm/pull/12204) in Helm

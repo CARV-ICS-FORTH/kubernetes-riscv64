@@ -13,5 +13,3 @@ Build and push with:
 ```bash
 docker buildx build --platform linux/riscv64 -t carvicsforth/traefik:2.10.3 --push .
 ```
-
-Source files are from the [official traefik image repository](https://github.com/traefik/traefik-library-image).
