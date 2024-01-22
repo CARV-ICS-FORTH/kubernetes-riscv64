@@ -65,7 +65,7 @@ gzip < k3s-riscv64 | split -b 20M - k3s-riscv64.gz.
 K3s relies on several additional services and applications, which have been ported to RISC-V:
 - [Add support for RISC-V](https://github.com/coredns/coredns/pull/6195) in CoreDNS - *Merged, released in v1.11.0*
 - [Add support for RISC-V](https://github.com/rancher/local-path-provisioner/pull/346) in Local Path Provisioner
-- [Add support for RISC-V](https://github.com/helm/helm/pull/12204) in Helm
+- [Add support for RISC-V](https://github.com/helm/helm/pull/12204) in Helm - *Merged, released in v3.14.0*
 - [Add support for RISC-V](https://github.com/k3s-io/klipper-helm/pull/64) in klipper-helm
 - [Add support for RISC-V](https://github.com/traefik/traefik/pull/10026) in Traefik - *Merged, released in v2.10.5*
 - [Add support for RISC-V](https://github.com/k3s-io/klipper-lb/pull/56) in klipper-lb
