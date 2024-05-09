@@ -22,8 +22,11 @@ curl -sfL https://get.k3s.io > k3s-install.sh
 INSTALL_K3S_SKIP_DOWNLOAD="true" bash -x k3s-install.sh
 ```
 
-> **Note**
+> [!NOTE]  
 > Most container images are not available for RISC-V, so many applications may not run.
+
+> [!IMPORTANT]
+> Currently, the bundled Traefik deployment requires [running a version of iptables that uses the nftables API](https://github.com/CARV-ICS-FORTH/kubernetes-riscv64/issues/1#issuecomment-2069122490) and [migrating the CRDs to use the API Group traefik.io](https://github.com/CARV-ICS-FORTH/kubernetes-riscv64/issues/2#issuecomment-2070466028).
 
 Check the `examples` folder for sample applications:
 ```bash
