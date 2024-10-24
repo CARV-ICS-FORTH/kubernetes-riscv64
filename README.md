@@ -50,7 +50,7 @@ Here is a list of submitted PRs:
 - [Support RISC-V](https://github.com/k3s-io/k3s-root/pull/60) in k3s-root - *Merged, released in v0.13.0*
 - [Backport riscv64 support into 1.1.x](https://github.com/opencontainers/runc/pull/3905) in runc - *Merged, released in v1.1.8*
 
-Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://github.com/CARV-ICS-FORTH/k3s) with [precompiled binaries](https://github.com/CARV-ICS-FORTH/k3s/releases). The binaries are built from the `riscv64-manifests` branch, that also uses available `riscv64` container images by default.
+Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://github.com/CARV-ICS-FORTH/k3s) with [precompiled binaries](https://github.com/CARV-ICS-FORTH/k3s/releases). Each binary is built from the respective `riscv64-release-*` branch, that also uses available `riscv64` container images by default.
 
 We build K3s with:
 ```bash
