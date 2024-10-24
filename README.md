@@ -11,9 +11,9 @@ This document marks our current progress in making Kubernetes available for RISC
 In summary, the following commands should get you up and running with K3s:
 ```bash
 # Download
-wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230721/k3s-riscv64.gz.aa
-wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230721/k3s-riscv64.gz.ab
-wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20230721/k3s-riscv64.gz.ac
+wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20241024/k3s-riscv64.gz.aa
+wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20241024/k3s-riscv64.gz.ab
+wget https://github.com/CARV-ICS-FORTH/k3s/releases/download/20241024/k3s-riscv64.gz.ac
 cat k3s-riscv64.gz.* | gunzip > /usr/local/bin/k3s
 chmod +x /usr/local/bin/k3s
 
@@ -55,7 +55,7 @@ Until RISC-V support is merged upstream in K3s, we maintain a [fork](https://git
 We build K3s with:
 ```bash
 # Build
-rm -rf bin etc dist build
+rm -rf bin dist build
 ARCH=riscv64 SKIP_IMAGE=true SKIP_VALIDATE=true SKIP_AIRGAP=true make
 
 # Split
@@ -67,44 +67,27 @@ gzip < k3s-riscv64 | split -b 20M - k3s-riscv64.gz.
 
 K3s relies on several additional services and applications, which have been ported to RISC-V:
 - [Add support for RISC-V](https://github.com/coredns/coredns/pull/6195) in CoreDNS - *Merged, released in v1.11.0*
-- [Add support for RISC-V](https://github.com/rancher/local-path-provisioner/pull/346) in Local Path Provisioner
+- [Add support for RISC-V](https://github.com/rancher/local-path-provisioner/pull/346) in Local Path Provisioner - *RISC-V support added in v0.0.29*
 - [Add support for RISC-V](https://github.com/helm/helm/pull/12204) in Helm - *Merged, released in v3.14.0*
 - [Add support for RISC-V](https://github.com/k3s-io/klipper-helm/pull/64) in klipper-helm
 - [Add support for RISC-V](https://github.com/traefik/traefik/pull/10026) in Traefik - *Merged, released in v2.10.5*
 - [Add support for RISC-V](https://github.com/k3s-io/klipper-lb/pull/56) in klipper-lb
 
-To build and upload the CoreDNS image from our fork, we comment out building `amd64` and `arm64` binaries in `Makefile.release` and run:
-```bash
-make -f Makefile.release build
-mkdir -p build/docker/riscv64
-cp build/linux/riscv64/coredns build/docker/riscv64/
-make DOCKER=carvicsforth VERSION=1.10.1 -f Makefile.docker docker-build
-docker tag docker.io/carvicsforth/coredns:riscv64-1.10.1 docker.io/carvicsforth/coredns:1.10.1
-docker push carvicsforth/coredns:1.10.1
-```
-
-To build and upload the Local Path Provisioner image from our fork, we run:
-```bash
-ARCH=riscv64 SKIP_TEST=1 SKIP_VALIDATE=1 make ci
-docker tag rancher/local-path-provisioner:7e1d2a1-riscv64 carvicsforth/local-path-provisioner:master-head
-docker push carvicsforth/local-path-provisioner:master-head
-```
-
 To build and upload the klipper-helm image from our fork, we run:
 ```bash
 ARCH=riscv64 make
-docker tag rancher/klipper-helm:dev carvicsforth/klipper-helm:v0.8.0-build20230716
-docker push carvicsforth/klipper-helm:v0.8.0-build20230716
+docker tag rancher/klipper-helm:dev carvicsforth/klipper-helm:v0.9.3-build20241008
+docker push carvicsforth/klipper-helm:v0.9.3-build20241008
 ```
 
 To build and upload the klipper-lb image from our fork, we run:
 ```bash
 ARCH=riscv64 make
-docker tag rancher/klipper-lb:dev carvicsforth/klipper-lb:v0.4.4
-docker push carvicsforth/klipper-lb:v0.4.4
+docker tag rancher/klipper-lb:dev carvicsforth/klipper-lb:v0.4.9
+docker push carvicsforth/klipper-lb:v0.4.9
 ```
 
-Other necessary container images, like the `pause`, `traefik`, and `metrics-server` containers, can be found in the `images` folder.
+Other necessary container images, like the `pause` and `metrics-server` containers, can be found in the `images` folder.
 
 ## Higher level services and applications
 

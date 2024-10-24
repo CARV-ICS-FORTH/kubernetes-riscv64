@@ -4,5 +4,5 @@ This is a simple Dockerfile for building the Kubernetes pause container for the 
 
 Build and push with:
 ```bash
-docker buildx build --platform linux/riscv64 -t carvicsforth/pause:v3.9-v1.27.2 --push .
+docker buildx build --platform linux/riscv64 -t carvicsforth/pause:v3.10-v1.31.1 --push .
 ```
