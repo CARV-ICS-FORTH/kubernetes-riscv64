@@ -25,6 +25,6 @@ spec:
     spec:
       containers:
       - name: ubuntu
-        image: riscv64/ubuntu:latest
+        image: ubuntu:latest
         command: ["sleep"]
         args: ["infinity"]
