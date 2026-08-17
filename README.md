@@ -1,6 +1,6 @@
 # Kubernetes on RISC-V
 
-This document and repository marks our progress in making Kubernetes available for RISC-V. Our main focus has been to support[K3s](https://k3s.io/); a light-weight Kubernetes distribution that packs all necessary code into a single binary and needs a smaller memory footprint to run.
+This document and repository marks our progress in making Kubernetes available for RISC-V. Our main focus has been to support [K3s](https://k3s.io/); a light-weight Kubernetes distribution that packs all necessary code into a single binary and needs a smaller memory footprint to run.
 
 We started back in mid-2023, when mainline Debian and Ubuntu Linux had RISC-V versions, however the adoption of the architecture in container images was extremely limited. As Kubernetes is mostly written in Go, and Go supports cross-compilation to RISC-V, our first approach was to cross-compile K3s. This also involved dealing with several dependencies out of the K3s tree, both utilities/libraries used by K3s, as well as services launched in containers when booting up K3s. All of our changes were submitted as PRs to the corresponding projects and most have been merged upstream, strengthening Kubernetes RISC-V support.
 
@@ -42,7 +42,7 @@ apt-get update
 apt-get install -y docker.io make
 usermod -aG docker ubuntu
 
-# Run as ubuntu, logout & login)
+# Run as ubuntu, logout & login
 mkdir -p ~/.docker/cli-plugins/
 wget https://github.com/gounthar/docker-for-riscv64/releases/download/buildx-v0.36.1-riscv64/docker-buildx
 mv docker-buildx ~/.docker/cli-plugins/
